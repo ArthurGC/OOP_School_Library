@@ -8,4 +8,12 @@ class Person
         @name = name
         @age = age
     end
+
+    private def is_of_age?
+        if @age >= 18
+            true
+        else
+            false
+        end
+    end
 end
