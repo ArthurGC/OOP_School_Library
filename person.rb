@@ -1,4 +1,5 @@
 require_relative './corrector'
+require_relative './rental.rb'
 
 class Person
   attr_accessor :name, :age
@@ -31,5 +32,9 @@ class Person
 
   def validate_name(name)
     @corrector.correct_name(name)
+  end
+
+  def add_rental(book, date)
+    
   end
 end
