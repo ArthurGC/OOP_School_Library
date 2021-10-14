@@ -83,6 +83,8 @@ class App
     id = gets.chomp
     rentals_of_person = @rentals.filter { |rental| rental.person.id == id.to_i }
     puts 'Rentals: '
-    rentals_of_person.each { |rental| puts "Date: #{rental.date}, Book:\"#{rental.book.title}\" by #{rental.book.author}" }
+    rentals_of_person.each do |rental|
+      puts "Date: #{rental.date}, Book:\"#{rental.book.title}\" by #{rental.book.author}"
+    end
   end
 end
