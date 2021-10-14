@@ -13,7 +13,7 @@ class App
   end
 
   def all_books
-    @books.each { |book| puts "Title: #{book.title}, Author: #{book.author}" }
+    @books.each { |book| puts "Title: \"#{book.title}\", Author: #{book.author}" }
   end
 
   def all_people
@@ -63,7 +63,7 @@ class App
 
   def create_rental
     puts 'Select a book from the following list by number'
-    @books.each_with_index { |book, index| puts "#{index}) Title: #{book.title}, Author: #{book.author}" }
+    @books.each_with_index { |book, index| puts "#{index}) Title: \"#{book.title}\", Author: #{book.author}" }
     number_book = gets.chomp
     puts
     puts 'Select a person from the following list by number(not id)'
@@ -83,6 +83,6 @@ class App
     id = gets.chomp
     rentals_of_person = @rentals.filter { |rental| rental.person.id == id.to_i }
     puts 'Rentals: '
-    rentals_of_person.each { |rental| puts "Date: #{rental.date}, Book: #{rental.book.title} by #{rental.book.author}" }
+    rentals_of_person.each { |rental| puts "Date: #{rental.date}, Book:\"#{rental.book.title}\" by #{rental.book.author}" }
   end
 end
