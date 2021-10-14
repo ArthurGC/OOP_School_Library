@@ -1,4 +1,5 @@
 def main
+    app = App.new
     status = true
     while status
       puts 'Welcome to School Library App!'
