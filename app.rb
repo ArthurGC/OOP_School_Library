@@ -57,7 +57,7 @@ class App
     else
         puts 'Sorry, you choose a wrong option'
     end
-        @people << person
+        @people << person unless @people.include?(person)
         puts "Person created successfully"
   end
 
@@ -68,7 +68,7 @@ class App
       author = gets.chomp
 
       book = Book.new(title, author)
-      @books << book
+      @books << book unless @books.include?(book)
       puts "Book created successfully"
   end
 
@@ -84,6 +84,13 @@ class App
       print "Date: "
       date = gets.chomp
       rental = Rental.new(date, @people[number_people], @books[number_book])
-      @rentals << rental
+      @rentals << rental unless @rentals.include?(rental)
+  end
+
+  def all_rentals_id
+    print "ID of person: "
+    id = gets.chomp
+    rentals_of_person = @rentals.filter {|rental| rental.person.id == id}
+    rentals_of_person.each {|rental| puts "Date: #{rental.date}, Book: #{rental.book.title} by #{rental.book.author}"}
   end
 end
