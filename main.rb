@@ -1,8 +1,10 @@
+require_relative './app'
+
 def main
   app = App.new
   status = true
+  puts 'Welcome to School Library App!'
   while status
-    puts 'Welcome to School Library App!'
     puts
     puts 'Please choose an option by entering a number:'
     puts '1 - List all books'
@@ -29,9 +31,12 @@ def main
     when '6'
       app.all_rentals_id
     when '7'
+      puts 'Thank you for using this app!'
+      puts
       status = false
     else
       puts 'Sorry, you choose a wrong option'
+      puts
     end
   end
 end

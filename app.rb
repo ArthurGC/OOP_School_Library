@@ -21,14 +21,14 @@ class App
   end
 
   def create_person
-    print 'Do you want to create a student (1) or a teacher (2)? [Input the number]:'
+    print 'Do you want to create a student (1) or a teacher (2)? [Input the number]: '
     option_person = gets.chomp
 
     print 'Age: '
     age = gets.chomp
     age = 18 if age == ''
     print 'Name: '
-    name = gets.chomps
+    name = gets.chomp
     name = 'Unknown' if name == ''
 
     case option_person
@@ -63,25 +63,26 @@ class App
 
   def create_rental
     puts 'Select a book from the following list by number'
-    @books.each { |book, index| puts "#{index}) Title: #{book.title}, Author: #{book.author}" }
+    @books.each_with_index { |book, index| puts "#{index}) Title: #{book.title}, Author: #{book.author}" }
     number_book = gets.chomp
     puts
     puts 'Select a person from the following list by number(not id)'
-    @people.each do |person, index|
+    @people.each_with_index do |person, index|
       puts "#{index}) [#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
     end
     number_people = gets.chomp
     puts
     print 'Date: '
     date = gets.chomp
-    rental = Rental.new(date, @people[number_people], @books[number_book])
+    rental = Rental.new(date, @people[number_people.to_i], @books[number_book.to_i])
     @rentals << rental unless @rentals.include?(rental)
   end
 
   def all_rentals_id
     print 'ID of person: '
     id = gets.chomp
-    rentals_of_person = @rentals.filter { |rental| rental.person.id == id }
+    rentals_of_person = @rentals.filter { |rental| rental.person.id == id.to_i }
+    puts 'Rentals: '
     rentals_of_person.each { |rental| puts "Date: #{rental.date}, Book: #{rental.book.title} by #{rental.book.author}" }
   end
 end
