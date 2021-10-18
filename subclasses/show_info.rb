@@ -1,12 +1,11 @@
 class ShowInformation
-    def all_books(books)
+
+      def all_books(books)
         books.each { |book| puts "Title: \"#{book.title}\", Author: #{book.author}" }
-        
       end
     
       def all_people(people)
         people.each { |person| puts "[#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}" }
-        
       end
     
       def all_rentals_id(rentals)
@@ -17,6 +16,5 @@ class ShowInformation
         rentals_of_person.each do |rental|
           puts "Date: #{rental.date}, Book:\"#{rental.book.title}\" by #{rental.book.author}"
         end
-        
       end
 end

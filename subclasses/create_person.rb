@@ -1,7 +1,7 @@
 require_relative '../student'
 require_relative '../teacher'
 
-class CreatePerson    
+class CreatePerson      
   def create_person(people)
     print 'Do you want to create a student (1) or a teacher (2)? [Input the number]: '
     option_person = gets.chomp
@@ -29,8 +29,8 @@ class CreatePerson
       
       return
     end
-    people << person unless people.include?(person)
+
+   people << person
     puts 'Person created successfully'
-    
   end
 end
