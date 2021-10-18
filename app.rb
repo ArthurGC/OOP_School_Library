@@ -87,4 +87,19 @@ class App
       puts "Date: #{rental.date}, Book:\"#{rental.book.title}\" by #{rental.book.author}"
     end
   end
+
+  def exit_program
+    puts 'Thank you for using this app!'
+    exit(true)
+  end
+
+  def check_options(option)
+  functions = [method(:all_books), method(:all_people), method(:create_person),
+  method(:create_book), method(:create_rental), method(:all_rentals_id), method(:exit_program)]
+  option -= 1
+  functions.each_with_index do |function, index| 
+    next unless index == option
+    function.call
+  end
+  end
 end
