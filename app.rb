@@ -22,7 +22,6 @@ class App
     puts '6 - List all rentals for a given person id'
     puts '7 - Exit'
 
-    option = gets.chomp
+    gets.chomp
   end
-
 end

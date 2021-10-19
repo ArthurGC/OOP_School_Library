@@ -1,11 +1,10 @@
-require_relative '../classes/rental.rb'
+require_relative '../classes/rental'
 
 class CreateRental
-
   def book_selection(books)
     puts 'Select a book from the following list by number'
     books.each_with_index { |book, index| puts "#{index}) Title: \"#{book.title}\", Author: #{book.author}" }
-    number_book = gets.chomp.to_i
+    gets.chomp.to_i
   end
 
   def person_selection(people)
@@ -13,16 +12,16 @@ class CreateRental
     people.each_with_index do |person, index|
       puts "#{index}) [#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
     end
-    number_people = gets.chomp.to_i
+    gets.chomp.to_i
   end
 
   def date_selection
     print "\nDate: "
-    date = gets.chomp
+    gets.chomp
   end
-    
+
   def create_rental(books, people, rentals)
     rental = Rental.new(books[book_selection(books)], people[person_selection(people)], date_selection)
-    rentals << rental unless rentals.include?(rental)   
+    rentals << rental unless rentals.include?(rental)
   end
-end  
+end
