@@ -2,14 +2,23 @@ require_relative './subclasses/create_person'
 require_relative './subclasses/create_book'
 require_relative './subclasses/create_rentals'
 require_relative './subclasses/show_info'
+require 'json'
 
 class App
   attr_accessor :books, :people, :rentals
+  def initialize()
+    @books = load_data('books')
+    @people = load_data('people')
+    @rentals = load_data('rentals')
+  end
 
-  def initialize(books = [], people = [], rentals = [])
-    @books = books
-    @people = people
-    @rentals = rentals
+  def load_data(name)       
+    file = File.open("./data/#{name}.json", 'a')
+    show = File.read("./data/#{name}.json")
+    if show != ''
+      JSON.parse(show)
+    end
+    []
   end
 
   def ui_init

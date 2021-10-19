@@ -23,6 +23,7 @@ def main
     when '7'
       puts 'Thank you for using this app!'
       puts
+      
       status = false
     else
       puts 'Sorry, you choose a wrong option'

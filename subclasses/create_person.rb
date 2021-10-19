@@ -33,7 +33,7 @@ class CreatePerson
       age = pick_age
       name = pick_name
       specialization = pick_specialization
-      person = Teacher.new(age, specialization, name)
+      person = Teacher.new(age, specialization, name)      
     else
       puts 'Sorry, you choose a wrong option'
       return
