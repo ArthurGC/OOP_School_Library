@@ -7,13 +7,16 @@ class ShowInformation
       def all_people(people)
         people.each { |person| puts "[#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}" }
       end
-    
-      def all_rentals_id(rentals)
+
+      def get_rental_id(rentals)
         print 'ID of person: '
         id = gets.chomp
-        rentals_of_person = rentals.filter { |rental| rental.person.id == id.to_i }
+        rentals_of_person = rentals.filter { |rental| rental.person.id == id.to_i }        
+      end
+    
+      def all_rentals_id(rentals)
         puts 'Rentals: '
-        rentals_of_person.each do |rental|
+        get_rental_id(rentals).each do |rental|
           puts "Date: #{rental.date}, Book:\"#{rental.book.title}\" by #{rental.book.author}"
         end
       end
