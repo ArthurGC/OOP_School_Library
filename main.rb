@@ -5,31 +5,21 @@ def main
   status = true
   puts 'Welcome to School Library App!'
   while status
-    puts
-    puts 'Please choose an option by entering a number:'
-    puts '1 - List all books'
-    puts '2 - List all people'
-    puts '3 - Create a person'
-    puts '4 - Create a book'
-    puts '5 - Create a rental'
-    puts '6 - List all rentals for a given person id'
-    puts '7 - Exit'
-
-    option = gets.chomp
+    option = app.ui_init
 
     case option
     when '1'
-      app.all_books
+      ShowInformation.new.all_books(app.books)
     when '2'
-      app.all_people
+      ShowInformation.new.all_people(app.people)
     when '3'
-      app.create_person
+      CreatePerson.new.create_person(app.people)
     when '4'
-      app.create_book
+      CreateBook.new.create_book(app.books)
     when '5'
-      app.create_rental
+      CreateRental.new.create_rental(app.books, app.people, app.rentals)
     when '6'
-      app.all_rentals_id
+      ShowInformation.new.all_rentals_id(app.rentals)
     when '7'
       puts 'Thank you for using this app!'
       puts
