@@ -22,7 +22,7 @@ class CreateRental
   end
     
   def create_rental(books, people, rentals)
-    rental = Rental.new(date_selection, people[person_selection(people)], books[book_selection(books)])
+    rental = Rental.new(books[book_selection(books)], people[person_selection(people)], date_selection)
     rentals << rental unless rentals.include?(rental)   
   end
 end  
