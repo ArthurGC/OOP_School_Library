@@ -2,23 +2,93 @@ require_relative './subclasses/create_person'
 require_relative './subclasses/create_book'
 require_relative './subclasses/create_rentals'
 require_relative './subclasses/show_info'
+require_relative './classes/book.rb'
+require_relative './classes/student.rb'
+require_relative './classes/teacher.rb'
 require 'json'
 
 class App
   attr_accessor :books, :people, :rentals
+
   def initialize()
-    @books = load_data('books')
-    @people = load_data('people')
-    @rentals = load_data('rentals')
+    @books = load_data_books
+    @people = load_data_people
+    @rentals = load_data_rentals
   end
 
-  def load_data(name)       
-    file = File.open("./data/#{name}.json", 'a')
-    show = File.read("./data/#{name}.json")
+  def load_data_books   
+    file = File.open("./data/books.json", 'a+')
+    show = File.read("./data/books.json")
     if show != ''
-      JSON.parse(show)
+      file.close
+      return JSON.parse(show, create_additions: true).map do |book|
+        Book.new(book["title"],book["author"])
+      end
     end
-    []
+    return []
+    file.close
+  end
+
+  def load_data_people
+    file = File.open("./data/people.json", 'a+')
+    show = File.read("./data/people.json")
+    if show != ''
+      file.close
+      list_people =  JSON.parse(show, create_additions: true).map do |person|
+        if person["tipo"] == "Student"
+          student = Student.new(person["age"],person["name"], parent_permission: person["parent_permision"])
+          student.id = person["id"]
+          student
+        elsif person["tipo"] == "Teacher"
+          teacher = Teacher.new(person["age"],person["specialization"],person["name"])
+          teacher.id = person["id"]
+          teacher
+        end
+      end
+      return list_people
+    end
+    return []
+    file.close
+  end
+  
+  def load_data_rentals
+    file = File.open("./data/rentals.json", 'a+')
+    show = File.read("./data/rentals.json")
+    if show != ''
+      file.close
+      list_rentals = JSON.parse(show, create_additions: true).map do |rental|
+        book_feature = @books.filter { |book| book.title == rental["book"]["title"] && book.author == rental["book"]["author"]}
+        person_feature = @people.filter { |person| person.id == rental["person"]["id"] }
+        Rental.new(book_feature[0], person_feature[0], rental["date"])
+      end
+      return list_rentals
+    end
+    return []
+    file.close
+  end
+
+  def save_data
+      book_info = @books.map do |book|
+        {title: book.title, author: book.author }
+      end
+      people_info = @people.map do |person|
+        if person.class == Student
+          {tipo: person.class , name: person.name, id: person.id, age: person.age, parent_permission: person.parent_permission[:parent_permission], classroom: person.classroom }
+        elsif person.class == Teacher
+          {tipo: person.class , name: person.name, id: person.id, age: person.age, parent_permission: person.parent_permission, specialization: person.specialization }
+        end
+      end
+      rentals_info = @rentals.map do |rental|
+        if rental.person.class == Student
+          {date: rental.date, book: {title: rental.book.title, author: rental.book.author }, person: {tipo: rental.person.class , name: rental.person.name, id: rental.person.id, age: rental.person.age, parent_permission: rental.person.parent_permission[:parent_permission], classroom: rental.person.classroom }}
+        elsif rental.person.class == Teacher
+          {date: rental.date, book: {title: rental.book.title, author: rental.book.author }, person: {tipo: rental.person.class , name: rental.person.name, id: rental.person.id, age: rental.person.age, parent_permission: rental.person.parent_permission, specialization: rental.person.specialization }}
+        end
+      end
+        
+      File.write("./data/books.json", JSON.generate(book_info))
+      File.write("./data/people.json", JSON.generate(people_info))
+      File.write("./data/rentals.json", JSON.generate(rentals_info))
   end
 
   def ui_init
@@ -33,4 +103,5 @@ class App
 
     gets.chomp
   end
+
 end
