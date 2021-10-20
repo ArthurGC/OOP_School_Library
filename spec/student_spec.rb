@@ -10,7 +10,7 @@ describe Student do
     let (:student) { Student.new age, name, true, classroom }
     let(:book) { Book.new name, classroom }
 
-    it "takes two parameter and return the Person object" do
+    it "takes four parameters and return the Student object" do
         expect(student).to be_an_instance_of(Student)
     end
 
@@ -34,7 +34,7 @@ describe Student do
         expect(student.add_rental(book,'2021/10/20')).to be_an_instance_of(Rental)
     end
 
-    it "returns the right person when runs add_rental method" do
+    it "returns the right book when runs add_rental method" do
         expect(student.add_rental(book,'2021/10/20').book).to eq(book)
     end
 end
