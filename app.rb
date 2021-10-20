@@ -35,11 +35,12 @@ class App
     if show != ''
       file.close
       list_people = JSON.parse(show, create_additions: true).map do |person|
-        if person['tipo'] == 'Student'
+        case person['tipo']
+        when 'Student'
           student = Student.new(person['age'], person['name'], parent_permission: person['parent_permision'])
           student.id = person['id']
           student
-        elsif person['tipo'] == 'Teacher'
+        when 'Teacher'
           teacher = Teacher.new(person['age'], person['specialization'], person['name'])
           teacher.id = person['id']
           teacher
@@ -69,11 +70,23 @@ class App
     []
   end
 
-  def save_data
-    book_info = @books.map do |book|
-      { title: book.title, author: book.author }
+  def rental_data
+    @rentals.map do |rental|
+      if rental.person.instance_of?(Student)
+        { date: rental.date, book: { title: rental.book.title, author: rental.book.author },
+          person: { tipo: rental.person.class, name: rental.person.name, id: rental.person.id, age: rental.person.age,
+                    parent_permission: rental.person.parent_permission[:parent_permission],
+                    classroom: rental.person.classroom } }
+      elsif rental.person.instance_of?(Teacher)
+        { date: rental.date, book: { title: rental.book.title, author: rental.book.author },
+          person: { tipo: rental.person.class, name: rental.person.name, id: rental.person.id, age: rental.person.age,
+                    parent_permission: rental.person.parent_permission, specialization: rental.person.specialization } }
+      end
     end
-    people_info = @people.map do |person|
+  end
+
+  def people_data
+    @people.map do |person|
       if person.instance_of?(Student)
         { tipo: person.class, name: person.name, id: person.id, age: person.age,
           parent_permission: person.parent_permission[:parent_permission], classroom: person.classroom }
@@ -82,19 +95,18 @@ class App
           parent_permission: person.parent_permission, specialization: person.specialization }
       end
     end
-    rentals_info = @rentals.map do |rental|
-      if rental.person.instance_of?(Student)
-        { date: rental.date, book: { title: rental.book.title, author: rental.book.author },
-          person: { tipo: rental.person.class, name: rental.person.name, id: rental.person.id, age: rental.person.age, parent_permission: rental.person.parent_permission[:parent_permission], classroom: rental.person.classroom } }
-      elsif rental.person.instance_of?(Teacher)
-        { date: rental.date, book: { title: rental.book.title, author: rental.book.author },
-          person: { tipo: rental.person.class, name: rental.person.name, id: rental.person.id, age: rental.person.age, parent_permission: rental.person.parent_permission, specialization: rental.person.specialization } }
-      end
-    end
+  end
 
-    File.write('./data/books.json', JSON.generate(book_info))
-    File.write('./data/people.json', JSON.generate(people_info))
-    File.write('./data/rentals.json', JSON.generate(rentals_info))
+  def book_data
+    @books.map do |book|
+      { title: book.title, author: book.author }
+    end
+  end
+
+  def save_data
+    File.write('./data/books.json', JSON.generate(book_data))
+    File.write('./data/people.json', JSON.generate(people_data))
+    File.write('./data/rentals.json', JSON.generate(rental_data))
   end
 
   def ui_init
