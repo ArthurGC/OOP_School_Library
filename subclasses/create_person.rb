@@ -38,7 +38,6 @@ class CreatePerson
       puts 'Sorry, you choose a wrong option'
       return
     end
-
     people << person
     puts 'Person created successfully'
   end
